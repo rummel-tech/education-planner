@@ -53,6 +53,26 @@ void main() {
       expect(retrieved, isNull);
     });
 
+    test('getPlanForWeek returns plan for a specific week', () {
+      service.createPlan(
+        id: 'plan-1',
+        title: 'Week 1',
+        weekStartDate: DateTime(2026, 1, 13),
+      );
+
+      // Pass any date in that week (e.g., Wednesday Jan 15)
+      final retrieved = service.getPlanForWeek(DateTime(2026, 1, 15));
+
+      expect(retrieved, isNotNull);
+      expect(retrieved!.id, equals('plan-1'));
+    });
+
+    test('getPlanForWeek returns null when no plan exists for week', () {
+      final retrieved = service.getPlanForWeek(DateTime(2026, 2, 10));
+
+      expect(retrieved, isNull);
+    });
+
     test('getAllPlans returns all plans', () {
       service.createPlan(
         id: 'plan-1',

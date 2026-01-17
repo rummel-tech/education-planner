@@ -41,10 +41,13 @@ class WeeklyPlanService {
   /// Retrieves the plan for a specific week
   WeeklyPlan? getPlanForWeek(DateTime date) {
     final normalizedDate = _normalizeToMonday(date);
-    return _plans.values.firstWhere(
-      (plan) => plan.weekStartDate.isAtSameMomentAs(normalizedDate),
-      orElse: () => throw StateError('No plan found for week'),
-    );
+    try {
+      return _plans.values.firstWhere(
+        (plan) => plan.weekStartDate.isAtSameMomentAs(normalizedDate),
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Adds an activity to a plan
