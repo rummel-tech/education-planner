@@ -6,9 +6,6 @@ homepage: https://github.com/rummel-tech/education-planner
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
-dependencies:
-  uuid: ^4.0.0
-
 dev_dependencies:
   test: ^1.24.0
   lints: ^3.0.0
