@@ -76,13 +76,13 @@ class WeeklyPlanService {
       return false;
     }
     
-    final activity = plan.activities.where((a) => a.id == activityId).firstOrNull;
-    if (activity == null) {
+    try {
+      final activity = plan.activities.firstWhere((a) => a.id == activityId);
+      activity.isCompleted = true;
+      return true;
+    } catch (_) {
       return false;
     }
-    
-    activity.isCompleted = true;
-    return true;
   }
 
   /// Updates an existing plan
