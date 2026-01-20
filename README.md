@@ -183,6 +183,7 @@ dart run example/main.dart
 
 ## Documentation
 
+- [Objectives](./OBJECTIVES.md) - Goals, requirements, and success criteria
 - [Architecture](docs/ARCHITECTURE.md) - System design
 - [Deployment](docs/DEPLOYMENT.md) - Deployment guide
 - [Changelog](./CHANGELOG.md) - Version history
