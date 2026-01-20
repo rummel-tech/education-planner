@@ -181,6 +181,16 @@ dart test
 dart run example/main.dart
 ```
 
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) - System design
+- [Deployment](docs/DEPLOYMENT.md) - Deployment guide
+- [Changelog](./CHANGELOG.md) - Version history
+
 ## License
 
 See LICENSE file for details.
+
+---
+
+[Platform Documentation](../../../docs/) | [Product Overview](../../../docs/products/education-planner.md)
