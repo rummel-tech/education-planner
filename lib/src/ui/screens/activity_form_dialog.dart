@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/activity.dart';
-import '../../models/education_goal.dart';
 import '../providers/education_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/filter_chips.dart';
