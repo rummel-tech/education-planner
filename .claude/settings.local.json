@@ -6,7 +6,11 @@
       "Bash(flutter run:*)",
       "Bash(flutter devices:*)",
       "Bash(flutter create:*)",
-      "Bash(pgrep:*)"
+      "Bash(pgrep:*)",
+      "Bash(git status:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
