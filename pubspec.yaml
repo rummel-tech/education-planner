@@ -5,7 +5,20 @@ homepage: https://github.com/rummel-tech/education-planner
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  intl: ^0.19.0
+  uuid: ^4.2.1
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   test: ^1.24.0
   lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
