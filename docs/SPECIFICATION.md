@@ -44,6 +44,45 @@ All API endpoints require JWT Bearer token from AWS Cognito:
 Authorization: Bearer <access_token>
 ```
 
+## Design System
+
+This module uses the shared Artemis Design System. See [Design System](../../../../docs/architecture/DESIGN_SYSTEM.md) for complete specifications.
+
+### Design Principles
+
+All UI components follow the shared design system to ensure visual consistency across the Artemis ecosystem:
+
+- **Colors**: Rummel Blue primary (`#1E88E5`), Teal secondary (`#26A69A`)
+- **Typography**: Material 3 type scale with system fonts
+- **Spacing**: Consistent 4dp base unit scale (xs: 4dp, sm: 8dp, md: 16dp, lg: 24dp)
+- **Components**: Shared button, card, input, and navigation styles
+
+### Module-Specific Colors
+
+| Element | Color | Token | Usage |
+|---------|-------|-------|-------|
+| Progress Complete | `#388E3C` | `success` | Completed goals and activities |
+| Behind Schedule | `#F57C00` | `warning` | Overdue activities, approaching deadlines |
+| Blocked | `#D32F2F` | `error` | Failed activities, critical alerts |
+| Goal Badge | `#1E88E5` | `primary500` | Goal association indicators |
+
+### Key Components
+
+| Component | Specification |
+|-----------|---------------|
+| GoalCard | Card with 12dp radius, primary container badge, progress indicator |
+| ActivityCard | Card with checkbox, duration chip, goal badge |
+| WeekSelector | Horizontal scroll with date chips, selected state uses primary |
+| ProgressBar | Linear progress indicator using semantic colors |
+| FilterChips | 8dp radius chips with surfaceVariant background |
+
+### Screen Layouts
+
+All screens follow responsive breakpoints from the shared design system:
+- Mobile (< 600dp): Single column, bottom navigation
+- Tablet (600-839dp): Flexible columns, navigation rail optional
+- Desktop (>= 840dp): Multi-column with navigation rail
+
 ## Data Models
 
 ### EducationGoal
