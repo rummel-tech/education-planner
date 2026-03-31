@@ -10,7 +10,14 @@
       "Bash(git status:*)",
       "Bash(git push:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(grep -r \"artemis\\\\|API\\\\|endpoint\\\\|http\\\\|backend\" /home/shawn/_Projects/modules/planners/education-planner/lib --include=*.dart)",
+      "Bash(find /home/shawn/_Projects/modules/planners/education-planner -type f \\\\\\(-name .env* -o -name config.* -o -name *.json \\\\\\))",
+      "Bash(grep -r \"http\\\\|url\\\\|API\\\\|endpoint\\\\|baseURL\\\\|BASE_URL\\\\|hardcoded\" /home/shawn/_Projects/modules/planners/education-planner/lib --include=*.dart)",
+      "Read(//home/shawn/_Projects/modules/planners/**)",
+      "Read(//home/shawn/_Projects/**)",
+      "Bash(find /home/shawn/_Projects/docs -name *.md)",
+      "Bash(find /home/shawn/_Projects/services/workout-planner -name main.py -not -path */venv/*)"
     ]
   }
 }
