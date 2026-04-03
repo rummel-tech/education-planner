@@ -45,7 +45,7 @@ class _ReviewSessionScreenState extends State<ReviewSessionScreen> {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Review  ${_currentIndex + 1} / ${dueCards.length}',
+              'Review ${_currentIndex + 1} / ${dueCards.length}',
             ),
             actions: [
               TextButton(

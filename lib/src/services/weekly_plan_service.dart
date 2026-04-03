@@ -88,19 +88,11 @@ class WeeklyPlanService {
 
   /// Marks an activity as completed
   bool completeActivity(String planId, String activityId) {
-    final plan = _plans[planId];
-    if (plan == null) {
-      return false;
-    }
-
-    try {
-      final activity = plan.activities.firstWhere((a) => a.id == activityId);
-      activity.isCompleted = true;
-      _db?.updateActivity(planId, activity);
-      return true;
-    } catch (_) {
-      return false;
-    }
+    final activity = _findActivity(planId, activityId);
+    if (activity == null) return false;
+    activity.isCompleted = true;
+    _db?.updateActivity(planId, activity);
+    return true;
   }
 
   /// Updates an existing plan
@@ -133,15 +125,21 @@ class WeeklyPlanService {
 
   /// Toggles the completion status of an activity in a plan
   bool toggleActivityCompletion(String planId, String activityId) {
+    final activity = _findActivity(planId, activityId);
+    if (activity == null) return false;
+    activity.isCompleted = !activity.isCompleted;
+    _db?.updateActivity(planId, activity);
+    return true;
+  }
+
+  /// Returns the [Activity] with [activityId] from [planId], or null if not found.
+  Activity? _findActivity(String planId, String activityId) {
     final plan = _plans[planId];
-    if (plan == null) return false;
+    if (plan == null) return null;
     try {
-      final activity = plan.activities.firstWhere((a) => a.id == activityId);
-      activity.isCompleted = !activity.isCompleted;
-      _db?.updateActivity(planId, activity);
-      return true;
+      return plan.activities.firstWhere((a) => a.id == activityId);
     } catch (_) {
-      return false;
+      return null;
     }
   }
 

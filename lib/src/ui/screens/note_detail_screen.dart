@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/education_goal.dart';
 import '../../models/knowledge_note.dart';
 import '../providers/education_provider.dart';
 import '../theme/app_theme.dart';
@@ -156,7 +157,7 @@ class NoteDetailScreen extends StatelessWidget {
   ) {
     final linkedGoals = note.linkedGoalIds
         .map((id) => provider.getGoal(id))
-        .whereType<dynamic>()
+        .whereType<EducationGoal>()
         .toList();
 
     if (linkedGoals.isEmpty) return const SizedBox.shrink();
