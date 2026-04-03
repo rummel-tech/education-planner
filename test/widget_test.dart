@@ -12,7 +12,7 @@ void main() {
     testWidgets('has correct title', (tester) async {
       await tester.pumpWidget(const EducationPlannerApp());
       final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      expect(app.title, 'Education Planner');
+      expect(app.title, 'Artemis Knowledge');
     });
 
     testWidgets('debug banner is off', (tester) async {

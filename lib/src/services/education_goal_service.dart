@@ -1,8 +1,21 @@
 import '../models/education_goal.dart';
+import 'database_service.dart';
 
 /// Service for managing education goals
 class EducationGoalService {
   final Map<String, EducationGoal> _goals = {};
+  DatabaseService? _db;
+
+  void attachDatabase(DatabaseService db) {
+    _db = db;
+  }
+
+  void loadAll(List<EducationGoal> goals) {
+    _goals.clear();
+    for (final goal in goals) {
+      _goals[goal.id] = goal;
+    }
+  }
 
   /// Creates a new education goal
   EducationGoal createGoal({
@@ -10,6 +23,7 @@ class EducationGoalService {
     required String title,
     required String description,
     DateTime? targetDate,
+    List<String>? tags,
   }) {
     final goal = EducationGoal(
       id: id,
@@ -17,8 +31,10 @@ class EducationGoalService {
       description: description,
       createdAt: DateTime.now(),
       targetDate: targetDate,
+      tags: tags,
     );
     _goals[id] = goal;
+    _db?.insertGoal(goal);
     return goal;
   }
 
@@ -48,6 +64,7 @@ class EducationGoalService {
       return false;
     }
     _goals[id] = updatedGoal;
+    _db?.updateGoal(updatedGoal);
     return true;
   }
 
@@ -58,12 +75,15 @@ class EducationGoalService {
       return false;
     }
     goal.isCompleted = true;
+    _db?.updateGoal(goal);
     return true;
   }
 
   /// Deletes a goal
   bool deleteGoal(String id) {
-    return _goals.remove(id) != null;
+    final removed = _goals.remove(id) != null;
+    if (removed) _db?.deleteGoal(id);
+    return removed;
   }
 
   /// Gets the total number of goals

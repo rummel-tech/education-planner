@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
 import 'activity_form_dialog.dart';
 import 'goal_detail_screen.dart';
+import 'search_screen.dart';
 
 class WeeklyPlanScreen extends StatelessWidget {
   const WeeklyPlanScreen({super.key});
@@ -28,9 +29,9 @@ class WeeklyPlanScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement search
-            },
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SearchScreen()),
+            ),
           ),
         ],
       ),

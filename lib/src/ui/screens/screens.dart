@@ -1,5 +1,14 @@
 export 'activity_form_dialog.dart';
+export 'daily_review_screen.dart';
 export 'goal_detail_screen.dart';
 export 'goal_form_dialog.dart';
 export 'goals_list_screen.dart';
+export 'knowledge_dashboard_screen.dart';
+export 'note_detail_screen.dart';
+export 'note_form_dialog.dart';
+export 'notes_list_screen.dart';
+export 'resource_form_dialog.dart';
+export 'resource_library_screen.dart';
+export 'review_session_screen.dart';
+export 'search_screen.dart';
 export 'weekly_plan_screen.dart';
