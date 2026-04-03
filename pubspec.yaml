@@ -1,6 +1,6 @@
 name: education_planner
-description: A module for Artemis that manages education goals and weekly activity plans
-version: 0.1.0
+description: A personal knowledge system for managing education goals, notes, resources, and spaced-repetition review.
+version: 0.2.0
 homepage: https://github.com/rummel-tech/education-planner
 
 environment:
@@ -13,6 +13,9 @@ dependencies:
   provider: ^6.1.1
   intl: ^0.19.0
   uuid: ^4.2.1
+  sqflite: ^2.3.3
+  path_provider: ^2.1.4
+  flutter_markdown: ^0.7.4
 
 dev_dependencies:
   flutter_test:

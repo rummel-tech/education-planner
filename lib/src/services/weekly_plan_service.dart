@@ -1,9 +1,22 @@
 import '../models/activity.dart';
 import '../models/weekly_plan.dart';
+import 'database_service.dart';
 
 /// Service for managing weekly plans
 class WeeklyPlanService {
   final Map<String, WeeklyPlan> _plans = {};
+  DatabaseService? _db;
+
+  void attachDatabase(DatabaseService db) {
+    _db = db;
+  }
+
+  void loadAll(List<WeeklyPlan> plans) {
+    _plans.clear();
+    for (final plan in plans) {
+      _plans[plan.id] = plan;
+    }
+  }
 
   /// Creates a new weekly plan
   WeeklyPlan createPlan({
@@ -17,6 +30,7 @@ class WeeklyPlanService {
       weekStartDate: _normalizeToMonday(weekStartDate),
     );
     _plans[id] = plan;
+    _db?.insertPlan(plan);
     return plan;
   }
 
@@ -57,6 +71,7 @@ class WeeklyPlanService {
       return false;
     }
     plan.addActivity(activity);
+    _db?.insertActivity(planId, activity);
     return true;
   }
 
@@ -66,23 +81,18 @@ class WeeklyPlanService {
     if (plan == null) {
       return false;
     }
-    return plan.removeActivity(activityId);
+    final removed = plan.removeActivity(activityId);
+    if (removed) _db?.deleteActivity(activityId);
+    return removed;
   }
 
   /// Marks an activity as completed
   bool completeActivity(String planId, String activityId) {
-    final plan = _plans[planId];
-    if (plan == null) {
-      return false;
-    }
-    
-    try {
-      final activity = plan.activities.firstWhere((a) => a.id == activityId);
-      activity.isCompleted = true;
-      return true;
-    } catch (_) {
-      return false;
-    }
+    final activity = _findActivity(planId, activityId);
+    if (activity == null) return false;
+    activity.isCompleted = true;
+    _db?.updateActivity(planId, activity);
+    return true;
   }
 
   /// Updates an existing plan
@@ -91,12 +101,15 @@ class WeeklyPlanService {
       return false;
     }
     _plans[id] = updatedPlan;
+    _db?.updatePlan(updatedPlan);
     return true;
   }
 
   /// Deletes a plan
   bool deletePlan(String id) {
-    return _plans.remove(id) != null;
+    final removed = _plans.remove(id) != null;
+    if (removed) _db?.deletePlan(id);
+    return removed;
   }
 
   /// Gets all activities across all plans for a specific goal
@@ -108,6 +121,26 @@ class WeeklyPlanService {
       );
     }
     return activities;
+  }
+
+  /// Toggles the completion status of an activity in a plan
+  bool toggleActivityCompletion(String planId, String activityId) {
+    final activity = _findActivity(planId, activityId);
+    if (activity == null) return false;
+    activity.isCompleted = !activity.isCompleted;
+    _db?.updateActivity(planId, activity);
+    return true;
+  }
+
+  /// Returns the [Activity] with [activityId] from [planId], or null if not found.
+  Activity? _findActivity(String planId, String activityId) {
+    final plan = _plans[planId];
+    if (plan == null) return null;
+    try {
+      return plan.activities.firstWhere((a) => a.id == activityId);
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Gets the total number of plans

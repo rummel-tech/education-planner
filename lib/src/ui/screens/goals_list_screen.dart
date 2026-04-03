@@ -6,6 +6,7 @@ import '../theme/app_theme.dart';
 import '../widgets/widgets.dart';
 import 'goal_detail_screen.dart';
 import 'goal_form_dialog.dart';
+import 'search_screen.dart';
 
 class GoalsListScreen extends StatelessWidget {
   const GoalsListScreen({super.key});
@@ -18,9 +19,9 @@ class GoalsListScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement search
-            },
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SearchScreen()),
+            ),
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
