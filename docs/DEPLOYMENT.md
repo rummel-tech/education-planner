@@ -1,42 +1,31 @@
-# Education Planner Deployment
+# Education Planner deployment
 
 ## Overview
 
-The Education Planner is currently a Python CLI application. This guide covers local installation and usage.
+The app is a **Flutter** client with a **FastAPI** backend under `services/education-planner/` in the monorepo.
 
-## Installation
+## Backend (local)
 
 ```bash
-cd modules/planners/education-planner
-python -m venv .venv
-source .venv/bin/activate
+cd services/education-planner
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+pip install -e ../common
+uvicorn main:app --reload --port 8050
 ```
 
-## Usage
+## Frontend (local)
 
 ```bash
-# Run the application
-python -m education_planner
-
-# Run tests
-pytest
+cd education-planner
+flutter pub get
+flutter build web --release   # or flutter run -d chrome
 ```
 
-## Configuration
+## Production
 
-Configuration is managed via environment variables or a `.env` file:
-
-```bash
-DATABASE_URL=sqlite:///./education_planner.db
-```
-
-## Future Deployment
-
-When Flutter frontend and FastAPI backend are added:
-- Frontend: GitHub Pages via infrastructure workflows
-- Backend: AWS ECS via infrastructure workflows
+Use the same patterns as other platform apps: container image for the API (ECS), static hosting for Flutter web, secrets in AWS Secrets Manager. Trigger workflows from `infrastructure/.github/workflows/` on your infrastructure remote when those pipelines exist for this service.
 
 ---
 
-[Back to Module](../) | [Platform Documentation](../../../../docs/)
+**Last updated**: April 2026
