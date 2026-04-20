@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Education Planner — Screens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f0f0; color: #1a1a1a; padding: 32px 24px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; color: #666; margin-bottom: 36px; }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #999; margin: 48px 0 16px; padding-bottom: 6px; border-bottom: 1px solid #ddd; }
+    .screens { display: flex; flex-wrap: wrap; gap: 32px; }
+    .phone { width: 320px; flex-shrink: 0; }
+    .phone-label { font-size: 11px; font-weight: 600; color: #666; text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+    .phone-shell { background: #fff; border-radius: 28px; border: 2.5px solid #333; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.12); position: relative; }
+    .status-bar { background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px 4px; font-size: 11px; font-weight: 600; color: #333; border-bottom: 1px solid #f0f0f0; }
+    .app-bar { background: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ececec; }
+    .app-bar .title { font-size: 18px; font-weight: 700; flex: 1; }
+    .app-bar .actions { display: flex; gap: 6px; }
+    .app-bar .actions span { font-size: 20px; color: #555; }
+    .screen-body { min-height: 500px; padding: 14px; background: #fafafa; overflow: hidden; }
+    .card { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+    .text-xs { font-size: 10px; } .text-sm { font-size: 12px; } .text-md { font-size: 14px; } .text-lg { font-size: 16px; font-weight: 700; }
+    .muted { color: #888; } .primary { color: #1976D2; }
+    .row { display: flex; align-items: center; gap: 8px; } .row-sb { display: flex; align-items: center; justify-content: space-between; } .col { display: flex; flex-direction: column; gap: 4px; } .flex-1 { flex: 1; }
+    .chip { font-size: 10px; font-weight: 600; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+    .chip-blue { background: #E3F2FD; color: #1976D2; } .chip-green { background: #E8F5E9; color: #2E7D32; } .chip-amber { background: #FFF8E1; color: #E65100; } .chip-grey { background: #F5F5F5; color: #555; } .chip-purple { background: #F3E5F5; color: #6A1B9A; } .chip-teal { background: #E0F2F1; color: #00695C; }
+    .btn-filled { width: 100%; background: #1976D2; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; text-align: center; margin-top: 8px; }
+    .btn-outline { background: #fff; color: #1976D2; border: 1.5px solid #1976D2; border-radius: 8px; padding: 8px 16px; font-size: 12px; font-weight: 600; display: inline-block; }
+    .fab { width: 50px; height: 50px; border-radius: 14px; background: #1976D2; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; position: absolute; bottom: 16px; right: 16px; box-shadow: 0 4px 12px rgba(25,118,210,.4); }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 11px; font-weight: 600; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .field-input { width: 100%; border: 1.5px solid #ccc; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #222; background: #fff; }
+    .stat-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .stat-box { flex: 1; background: #fff; border-radius: 10px; border: 1px solid #e8e8e8; padding: 10px 8px; text-align: center; }
+    .stat-val { font-size: 18px; font-weight: 700; color: #1976D2; }
+    .stat-lbl { font-size: 10px; color: #888; margin-top: 2px; }
+    .progress-bar-bg { background: #E3F2FD; border-radius: 4px; height: 8px; margin: 6px 0; }
+    .progress-bar-fill { background: #1976D2; border-radius: 4px; height: 8px; }
+    .streak-card { background: linear-gradient(135deg, #E65100, #FF9800); border-radius: 14px; padding: 16px; margin-bottom: 14px; color: #fff; }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .filter-chip { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 1.5px solid #ddd; background: #fff; color: #555; }
+    .filter-chip.active { border-color: #1976D2; background: #E3F2FD; color: #1976D2; font-weight: 600; }
+    .list-tile { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .list-tile:last-child { border-bottom: none; }
+    .note-type-badge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 10px; display: inline-block; }
+    .resource-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .search-bar { display: flex; align-items: center; gap: 8px; background: #F5F5F5; border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; }
+    .flashcard { background: #fff; border-radius: 14px; border: 1.5px solid #e8e8e8; padding: 24px 16px; text-align: center; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .rating-row { display: flex; gap: 6px; margin-top: 12px; }
+    .rating-btn { flex: 1; padding: 10px 4px; border-radius: 8px; text-align: center; font-size: 11px; font-weight: 700; }
+    .r-again { background: #FCE4EC; color: #C62828; } .r-hard { background: #FFF3E0; color: #E65100; } .r-good { background: #E8F5E9; color: #2E7D32; } .r-easy { background: #E3F2FD; color: #1565C0; }
+    .day-section { margin-bottom: 14px; }
+    .day-header { font-size: 12px; font-weight: 700; color: #1976D2; padding: 6px 0; border-bottom: 1px solid #E8E8E8; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .activity-tile { padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+    .activity-tile:last-child { border-bottom: none; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-size: 10px; padding: 3px 10px; border-radius: 20px; background: #E3F2FD; color: #1976D2; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Education Planner</h1>
+  <p class="subtitle">Set meaningful learning goals and build weekly study plans that fit your life.</p>
+
+  <!-- ── Dashboard ── -->
+  <div class="section-label">Dashboard</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Knowledge Dashboard</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar"><div class="title">Dashboard</div></div>
+        <div class="screen-body">
+          <div class="streak-card">
+            <div class="row-sb">
+              <div>
+                <div class="text-sm" style="opacity:.8;">Current Streak</div>
+                <div style="font-size:28px; font-weight:800;">14 🔥</div>
+              </div>
+              <div style="text-align:right; opacity:.85;">
+                <div class="text-sm">Best: 21 days</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:8px;">Goals</div>
+            <div class="stat-row" style="margin-bottom:0;">
+              <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Total</div></div>
+              <div class="stat-box"><div class="stat-val">3</div><div class="stat-lbl">Completed</div></div>
+              <div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">Active</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:8px;">Knowledge Notes</div>
+            <div class="stat-row" style="margin-bottom:0;">
+              <div class="stat-box"><div class="stat-val">42</div><div class="stat-lbl">Total Notes</div></div>
+              <div class="stat-box"><div class="stat-val">12</div><div class="stat-lbl">Fleeting</div></div>
+              <div class="stat-box"><div class="stat-val">30</div><div class="stat-lbl">Permanent</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row-sb" style="margin-bottom:8px;">
+              <span class="text-md" style="font-weight:700;">Spaced Repetition</span>
+              <span class="chip chip-amber">8 due today</span>
+            </div>
+            <div class="stat-row" style="margin-bottom:8px;">
+              <div class="stat-box"><div class="stat-val">156</div><div class="stat-lbl">Total Cards</div></div>
+              <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Due Today</div></div>
+              <div class="stat-box"><div class="stat-val">14</div><div class="stat-lbl">Resources</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:8px;">Topics</div>
+            <div class="tag-cloud">
+              <div class="tag">Python</div><div class="tag">Machine Learning</div><div class="tag">Finance</div>
+              <div class="tag">Productivity</div><div class="tag">System Design</div><div class="tag">Leadership</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Daily Review ── -->
+  <div class="section-label">Daily Review</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Daily Review — Home</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar"><div class="title">Daily Review</div></div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div style="background: linear-gradient(135deg, #1976D2, #42A5F5); border-radius:14px; padding:16px; margin-bottom:14px; color:#fff;">
+            <div class="row-sb">
+              <div>
+                <div class="text-sm" style="opacity:.8; margin-bottom:4px;">Cards Due Today</div>
+                <div style="font-size:28px; font-weight:800;">8 cards</div>
+              </div>
+              <div style="font-size:40px;">🧠</div>
+            </div>
+            <div style="background:#fff; color:#1976D2; border-radius:8px; padding:10px; text-align:center; font-weight:700; font-size:14px; margin-top:12px;">Start Review</div>
+          </div>
+
+          <div class="text-md" style="font-weight:700; margin-bottom:8px;">Fleeting Notes — Inbox</div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile">
+              <div class="text-sm" style="font-weight:600;">Read about transformer architecture</div>
+              <div class="text-xs muted">Captured 2h ago</div>
+            </div>
+            <div class="list-tile">
+              <div class="text-sm" style="font-weight:600;">Look into Zettelkasten method</div>
+              <div class="text-xs muted">Captured yesterday</div>
+            </div>
+            <div class="list-tile">
+              <div class="text-sm" style="font-weight:600;">Finance: compound interest formula</div>
+              <div class="text-xs muted">Captured 2 days ago</div>
+            </div>
+          </div>
+
+          <div class="text-md" style="font-weight:700; margin-bottom:8px;">Quick Stats</div>
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-val">5</div><div class="stat-lbl">Notes Added</div></div>
+            <div class="stat-box"><div class="stat-val">14 🔥</div><div class="stat-lbl">Streak</div></div>
+            <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Cards Due</div></div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-label">Review Session — Card</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Review 3 / 8</div>
+          <div class="actions"><span>✕</span></div>
+        </div>
+        <div class="screen-body">
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:37%;"></div></div>
+          <div class="flashcard">
+            <div class="chip chip-purple" style="margin-bottom:12px;">Machine Learning</div>
+            <div class="text-md" style="font-weight:700; line-height:1.5;">What is the difference between supervised and unsupervised learning?</div>
+          </div>
+          <div style="text-align:center; color:#1976D2; font-weight:600; font-size:13px; margin-bottom:8px;">Tap to reveal answer ↓</div>
+          <div class="rating-row">
+            <div class="rating-btn r-again">Again<br><span style="font-size:9px;">&lt;1m</span></div>
+            <div class="rating-btn r-hard">Hard<br><span style="font-size:9px;">3d</span></div>
+            <div class="rating-btn r-good">Good<br><span style="font-size:9px;">7d</span></div>
+            <div class="rating-btn r-easy">Easy<br><span style="font-size:9px;">14d</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Goals ── -->
+  <div class="section-label">Goals</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Goals List</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Education Goals</div>
+        </div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div class="filter-chips">
+            <div class="filter-chip active">All (8)</div>
+            <div class="filter-chip">Active (5)</div>
+            <div class="filter-chip">Completed (3)</div>
+          </div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile">
+              <div class="row-sb" style="margin-bottom:4px;">
+                <span class="text-sm" style="font-weight:700;">Complete ML Fundamentals</span>
+                <span class="chip chip-blue">60%</span>
+              </div>
+              <div class="text-xs muted" style="margin-bottom:4px;">3 of 5 resources complete</div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%;"></div></div>
+            </div>
+            <div class="list-tile">
+              <div class="row-sb" style="margin-bottom:4px;">
+                <span class="text-sm" style="font-weight:700;">Read 12 books this year</span>
+                <span class="chip chip-amber">42%</span>
+              </div>
+              <div class="text-xs muted" style="margin-bottom:4px;">5 of 12 books read</div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:42%;"></div></div>
+            </div>
+            <div class="list-tile">
+              <div class="row-sb" style="margin-bottom:4px;">
+                <span class="text-sm" style="font-weight:700;">AWS Solutions Architect Cert</span>
+                <span class="chip chip-blue">25%</span>
+              </div>
+              <div class="text-xs muted" style="margin-bottom:4px;">Exam: August 2026</div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:25%;"></div></div>
+            </div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-label">Goal Detail</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <span style="font-size:20px; color:#555;">←</span>
+          <div class="title">Goal Details</div>
+        </div>
+        <div class="screen-body">
+          <div class="row" style="margin-bottom:14px;">
+            <div style="font-size:36px;">🎯</div>
+            <div class="col flex-1">
+              <div class="text-lg">Complete ML Fundamentals</div>
+              <span class="chip chip-blue">Active</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="row-sb" style="margin-bottom:6px;">
+              <span class="text-md" style="font-weight:700;">Progress</span>
+              <span class="text-sm primary" style="font-weight:600;">60%</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%;"></div></div>
+            <div class="text-xs muted" style="margin-top:6px;">3 of 5 activities completed</div>
+          </div>
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:8px;">Linked Activities</div>
+            <div class="list-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600; color:#aaa; text-decoration:line-through;">Intro to Neural Nets course</span>
+                <span class="chip chip-green">Done</span>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600; color:#aaa; text-decoration:line-through;">Read: Hands-On ML book</span>
+                <span class="chip chip-green">Done</span>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600;">Build 3 practice projects</span>
+                <span class="chip chip-amber">In Progress</span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-filled" style="background:#E8F5E9; color:#2E7D32;">Mark Goal as Complete</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Notes ── -->
+  <div class="section-label">Knowledge Notes</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Notes List</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Knowledge Notes</div>
+          <div class="actions"><span>🔍</span></div>
+        </div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div class="filter-chips">
+            <div class="filter-chip active">All</div>
+            <div class="filter-chip">Concept</div>
+            <div class="filter-chip">Reference</div>
+            <div class="filter-chip">Insight</div>
+          </div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile">
+              <div class="row" style="margin-bottom:4px;">
+                <span class="note-type-badge" style="background:#E3F2FD; color:#1565C0;">Concept</span>
+              </div>
+              <div class="text-sm" style="font-weight:600; margin-bottom:2px;">Attention mechanisms in transformers</div>
+              <div class="text-xs muted" style="margin-bottom:4px;">Self-attention allows each token to attend to all other tokens…</div>
+              <div class="row" style="gap:4px;">
+                <div class="tag">ML</div><div class="tag">Transformers</div>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row" style="margin-bottom:4px;">
+                <span class="note-type-badge" style="background:#E8F5E9; color:#2E7D32;">Insight</span>
+              </div>
+              <div class="text-sm" style="font-weight:600; margin-bottom:2px;">Learning = encoding + retrieval practice</div>
+              <div class="text-xs muted" style="margin-bottom:4px;">The act of retrieving strengthens memory traces…</div>
+              <div class="row" style="gap:4px;">
+                <div class="tag">Learning</div><div class="tag">Memory</div>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row" style="margin-bottom:4px;">
+                <span class="note-type-badge" style="background:#FFF3E0; color:#E65100;">Reference</span>
+              </div>
+              <div class="text-sm" style="font-weight:600; margin-bottom:2px;">Compound interest formula: A = P(1+r/n)^nt</div>
+              <div class="text-xs muted" style="margin-bottom:4px;">Where P=principal, r=rate, n=periods/year…</div>
+              <div class="row" style="gap:4px;">
+                <div class="tag">Finance</div>
+              </div>
+            </div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Resources ── -->
+  <div class="section-label">Resource Library</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Resource Library</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Resource Library</div>
+          <div class="actions"><span>🔍</span></div>
+        </div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div class="filter-chips">
+            <div class="filter-chip active">All</div>
+            <div class="filter-chip">Book</div>
+            <div class="filter-chip">Course</div>
+            <div class="filter-chip">Video</div>
+            <div class="filter-chip">Podcast</div>
+          </div>
+          <div class="filter-chips">
+            <div class="filter-chip active">All Status</div>
+            <div class="filter-chip">In Progress</div>
+            <div class="filter-chip">Unread</div>
+          </div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile">
+              <div class="row" style="align-items:flex-start;">
+                <div class="resource-icon" style="background:#E3F2FD;">📘</div>
+                <div class="col flex-1">
+                  <div class="text-sm" style="font-weight:700;">Hands-On ML with Scikit-Learn</div>
+                  <div class="text-xs muted">Aurélien Géron · Book</div>
+                  <div class="row" style="gap:4px; margin-top:4px;">
+                    <span class="chip chip-amber">In Progress</span>
+                    <div class="tag">ML</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row" style="align-items:flex-start;">
+                <div class="resource-icon" style="background:#F3E5F5;">🎓</div>
+                <div class="col flex-1">
+                  <div class="text-sm" style="font-weight:700;">AWS Solutions Architect Course</div>
+                  <div class="text-xs muted">A Cloud Guru · Course</div>
+                  <div class="row" style="gap:4px; margin-top:4px;">
+                    <span class="chip chip-amber">In Progress</span>
+                    <div class="tag">Cloud</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list-tile">
+              <div class="row" style="align-items:flex-start;">
+                <div class="resource-icon" style="background:#E8F5E9;">📗</div>
+                <div class="col flex-1">
+                  <div class="text-sm" style="font-weight:700;">Thinking Fast and Slow</div>
+                  <div class="text-xs muted">Daniel Kahneman · Book</div>
+                  <div class="row" style="gap:4px; margin-top:4px;">
+                    <span class="chip chip-grey">Unread</span>
+                    <div class="tag">Psychology</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Weekly Plan ── -->
+  <div class="section-label">Weekly Plan</div>
+  <div class="screens">
+
+    <div class="phone">
+      <div class="phone-label">Weekly Plan</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Weekly Plan</div>
+          <div class="actions"><span>‹</span><span>›</span></div>
+        </div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div class="card">
+            <div class="row-sb" style="margin-bottom:8px;">
+              <span class="text-sm" style="font-weight:600;">Week of Apr 14 – Apr 20</span>
+            </div>
+            <div class="row-sb" style="margin-bottom:6px;">
+              <span class="text-xs muted">Completed</span>
+              <span class="text-sm" style="font-weight:600; color:#1976D2;">5 / 9 activities</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:55%;"></div></div>
+            <div class="row-sb" style="margin-top:8px;">
+              <span class="text-xs muted">Study time</span>
+              <span class="text-sm" style="font-weight:600;">3h 20m / 6h target</span>
+            </div>
+          </div>
+
+          <div class="day-section">
+            <div class="day-header">
+              <span>Monday · 2 activities</span>
+              <span class="chip chip-green" style="font-size:9px;">Done</span>
+            </div>
+            <div class="activity-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600; color:#aaa; text-decoration:line-through;">ML Chapter 5 · 45 min</span>
+                <span class="chip chip-green" style="font-size:9px;">✓</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-section">
+            <div class="day-header" style="color:#E65100;">
+              <span>Thursday · 3 activities · Today</span>
+            </div>
+            <div class="activity-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600;">Flashcard review · 20 min</span>
+                <span class="chip chip-amber">Pending</span>
+              </div>
+            </div>
+            <div class="activity-tile">
+              <div class="row-sb">
+                <span class="text-sm" style="font-weight:600;">AWS Module 4 · 60 min</span>
+                <span class="chip chip-grey">Scheduled</span>
+              </div>
+            </div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="phone">
+      <div class="phone-label">Search</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="screen-body">
+          <div class="search-bar">
+            <span class="muted">🔍</span>
+            <span class="text-sm" style="color:#aaa; font-style:italic;">Search notes, goals, resources…</span>
+          </div>
+          <div class="text-md" style="font-weight:700; margin-bottom:8px;">Notes</div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile">
+              <span class="note-type-badge" style="background:#E3F2FD; color:#1565C0; margin-bottom:4px; display:inline-block;">Concept</span>
+              <div class="text-sm" style="font-weight:600;">Attention mechanisms in <span style="background:#FFF176;">transformers</span></div>
+            </div>
+          </div>
+          <div class="text-md" style="font-weight:700; margin: 8px 0;">Goals</div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile" style="border:none;">
+              <div class="text-sm" style="font-weight:600;">Complete ML Fundamentals</div>
+              <div class="text-xs muted">60% complete</div>
+            </div>
+          </div>
+          <div class="text-md" style="font-weight:700; margin: 8px 0;">Resources</div>
+          <div class="card" style="padding:8px 14px;">
+            <div class="list-tile" style="border:none;">
+              <div class="text-sm" style="font-weight:600;">Hands-On <span style="background:#FFF176;">ML</span> with Scikit-Learn</div>
+              <div class="text-xs muted">Book · In Progress</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
